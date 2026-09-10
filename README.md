@@ -1,5 +1,7 @@
 # World Clock Widget for Windows 11
 
+[![CI](https://github.com/Git-Grant-Rogers/windows11-widget-world-clock/actions/workflows/ci.yml/badge.svg)](https://github.com/Git-Grant-Rogers/windows11-widget-world-clock/actions/workflows/ci.yml)
+
 A world clock for the Windows 11 **Widgets Board** (Win+W). It shows the current time in the
 cities you choose, with the day and hour difference from your own time zone, and updates every
 minute while the board is open.
@@ -67,6 +69,9 @@ To run the unit tests on any OS:
 ```bash
 dotnet test tests/WorldClockWidget.Core.Tests
 ```
+
+Continuous integration (`.github/workflows/ci.yml`) runs those tests on Ubuntu and compiles the
+provider on Windows for x64 and ARM64 on every pull request.
 
 ## How it works
 

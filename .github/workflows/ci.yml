@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  test-core:
+    name: Core unit tests (Ubuntu)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore tests/WorldClockWidget.Core.Tests/WorldClockWidget.Core.Tests.csproj
+
+      - name: Test
+        run: >-
+          dotnet test tests/WorldClockWidget.Core.Tests/WorldClockWidget.Core.Tests.csproj
+          --configuration Release --no-restore
+          --logger "trx;LogFileName=core-tests.trx"
+          --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: core-test-results
+          path: TestResults/*.trx
+          if-no-files-found: ignore
+
+  build-provider:
+    name: Build widget provider (Windows, ${{ matrix.platform }})
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [x64, ARM64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore src/WorldClockWidget/WorldClockWidget.csproj -p:Platform=${{ matrix.platform }}
+
+      # Compiles the provider against the Windows App SDK and runs the MSIX resource (PRI)
+      # tooling. Package generation and signing are left to a release workflow.
+      - name: Build
+        run: >-
+          dotnet build src/WorldClockWidget/WorldClockWidget.csproj
+          --configuration Release --no-restore
+          -p:Platform=${{ matrix.platform }}
