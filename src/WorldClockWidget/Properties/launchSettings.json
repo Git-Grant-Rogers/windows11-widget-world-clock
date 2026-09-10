@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Widget provider (attach when the Widgets Board starts it)": {
+      "commandName": "MsixPackage",
+      "commandLineArgs": "-RegisterProcessAsComServer",
+      "doNotLaunchApp": true
+    },
+    "Widget provider (launch now)": {
+      "commandName": "MsixPackage",
+      "commandLineArgs": "-RegisterProcessAsComServer"
+    }
+  }
+}

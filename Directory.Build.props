@@ -1,0 +1,17 @@
+<Project>
+  <!-- Shared settings for every project in the repository. -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <Deterministic>true</Deterministic>
+    <Authors>Grant Rogers</Authors>
+    <Product>World Clock Widget</Product>
+    <Copyright>Copyright © Grant Rogers</Copyright>
+    <RepositoryUrl>https://github.com/Git-Grant-Rogers/windows11-widget-world-clock</RepositoryUrl>
+  </PropertyGroup>
+</Project>

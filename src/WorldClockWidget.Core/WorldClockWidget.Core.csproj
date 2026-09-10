@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Platform-neutral logic for the World Clock widget: settings, time-zone maths and
+    the Adaptive Card payloads. Keeping this free of Windows App SDK dependencies means
+    it can be unit-tested on any OS and reused by other hosts later.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>WorldClockWidget.Core</RootNamespace>
+    <AssemblyName>WorldClockWidget.Core</AssemblyName>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Cards\Templates\*.json" LogicalName="Templates.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="WorldClockWidget.Core.Tests" />
+  </ItemGroup>
+
+</Project>
