@@ -1,0 +1,148 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Your clocks",
+      "weight": "bolder",
+      "spacing": "none",
+      "wrap": false
+    },
+    {
+      "type": "TextBlock",
+      "$when": "${!hasClocks}",
+      "text": "Add a city below to get started.",
+      "size": "small",
+      "weight": "lighter",
+      "isSubtle": true,
+      "spacing": "small",
+      "wrap": true
+    },
+    {
+      "type": "ColumnSet",
+      "$data": "${clocks}",
+      "spacing": "small",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "verticalContentAlignment": "center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "${label}",
+              "spacing": "none",
+              "maxLines": 1,
+              "wrap": false
+            },
+            {
+              "type": "TextBlock",
+              "text": "${zoneName}",
+              "size": "small",
+              "weight": "lighter",
+              "isSubtle": true,
+              "spacing": "none",
+              "maxLines": 1,
+              "wrap": false
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "verticalContentAlignment": "center",
+          "items": [
+            {
+              "type": "ActionSet",
+              "spacing": "none",
+              "actions": [
+                {
+                  "type": "Action.Execute",
+                  "title": "Up",
+                  "tooltip": "Move up",
+                  "verb": "moveClockUp",
+                  "data": { "timeZoneId": "${timeZoneId}" }
+                },
+                {
+                  "type": "Action.Execute",
+                  "title": "Remove",
+                  "tooltip": "Remove this clock",
+                  "verb": "removeClock",
+                  "data": { "timeZoneId": "${timeZoneId}" }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$when": "${canAddMore}",
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "Input.ChoiceSet",
+          "id": "timeZoneId",
+          "label": "Add a city",
+          "placeholder": "Choose a time zone",
+          "style": "compact",
+          "spacing": "none",
+          "choices": [
+            {
+              "$data": "${availableZones}",
+              "title": "${title}",
+              "value": "${value}"
+            }
+          ]
+        },
+        {
+          "type": "Input.Text",
+          "id": "label",
+          "placeholder": "Display name (optional)",
+          "maxLength": 24,
+          "spacing": "small"
+        },
+        {
+          "type": "ActionSet",
+          "spacing": "small",
+          "actions": [
+            {
+              "type": "Action.Execute",
+              "title": "Add",
+              "verb": "addClock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "$when": "${!canAddMore}",
+      "text": "You have reached the maximum of ${maxClocks} clocks.",
+      "size": "small",
+      "weight": "lighter",
+      "isSubtle": true,
+      "spacing": "medium",
+      "wrap": true
+    },
+    {
+      "type": "Input.Toggle",
+      "id": "use24Hour",
+      "title": "Use 24-hour clock",
+      "value": "${use24Hour}",
+      "valueOn": "true",
+      "valueOff": "false",
+      "spacing": "medium"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Execute",
+      "title": "Done",
+      "verb": "exitCustomization"
+    }
+  ]
+}

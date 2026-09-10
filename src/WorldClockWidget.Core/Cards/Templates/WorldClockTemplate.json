@@ -1,0 +1,130 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "$when": "${$host.widgetSize == \"small\"}",
+      "spacing": "none",
+      "verticalContentAlignment": "center",
+      "selectAction": {
+        "type": "Action.Execute",
+        "verb": "openClockApp",
+        "title": "Open Clock"
+      },
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "${primary.time}",
+          "size": "extraLarge",
+          "weight": "bolder",
+          "spacing": "none",
+          "wrap": false
+        },
+        {
+          "type": "TextBlock",
+          "text": "${primary.label}",
+          "weight": "bolder",
+          "spacing": "none",
+          "maxLines": 1,
+          "wrap": false
+        },
+        {
+          "type": "TextBlock",
+          "text": "${primary.caption}",
+          "size": "small",
+          "weight": "lighter",
+          "isSubtle": true,
+          "spacing": "none",
+          "maxLines": 1,
+          "wrap": false
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$when": "${$host.widgetSize != \"small\" && hasClocks}",
+      "spacing": "none",
+      "selectAction": {
+        "type": "Action.Execute",
+        "verb": "openClockApp",
+        "title": "Open Clock"
+      },
+      "items": [
+        {
+          "type": "ColumnSet",
+          "$data": "${clocks}",
+          "spacing": "medium",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "verticalContentAlignment": "center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${label}",
+                  "weight": "bolder",
+                  "spacing": "none",
+                  "maxLines": 1,
+                  "wrap": false
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${caption}",
+                  "size": "small",
+                  "weight": "lighter",
+                  "isSubtle": true,
+                  "spacing": "none",
+                  "maxLines": 1,
+                  "wrap": false
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "auto",
+              "verticalContentAlignment": "center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${time}",
+                  "size": "large",
+                  "weight": "bolder",
+                  "horizontalAlignment": "right",
+                  "spacing": "none",
+                  "wrap": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$when": "${$host.widgetSize != \"small\" && !hasClocks}",
+      "spacing": "none",
+      "verticalContentAlignment": "center",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "${primary.label}",
+          "weight": "bolder",
+          "spacing": "none",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "${primary.caption}",
+          "size": "small",
+          "weight": "lighter",
+          "isSubtle": true,
+          "spacing": "none",
+          "wrap": true
+        }
+      ]
+    }
+  ]
+}

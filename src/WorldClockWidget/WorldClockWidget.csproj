@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The Windows widget provider. This is a packaged (MSIX) out-of-process COM server that the
+    Widgets Board activates on demand. It mirrors the layout of Microsoft's
+    WindowsAppSDK-Samples/Samples/Widgets/cs-console-packaged sample, using single-project
+    MSIX packaging so there is no separate packaging project to maintain.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <!-- Widgets require Windows 11 22H2 (build 22621) or later. -->
+    <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
+    <RootNamespace>WorldClockWidget</RootNamespace>
+    <AssemblyName>WorldClockWidget</AssemblyName>
+    <Platforms>x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <UseWinUI>false</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <WindowsPackageType>MSIX</WindowsPackageType>
+    <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Lets `dotnet build` restore on non-Windows CI agents; packaging still needs Windows. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\**\*.png" />
+    <Content Include="ProviderAssets\**\*.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WorldClockWidget.Core\WorldClockWidget.Core.csproj" />
+  </ItemGroup>
+
+  <!-- Enables the Package & Publish menu and MSIX deployment in Visual Studio. -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+  </PropertyGroup>
+
+</Project>
